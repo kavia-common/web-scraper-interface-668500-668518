@@ -1,82 +1,38 @@
-# Lightweight React Template for KAVIA
+# Webscraper Frontend (Ocean Professional)
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
-
-## Features
-
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+A simple React UI where users can input a URL and view scraped data (title, description, links). Uses a mock scraping approach in the frontend and an Ocean Professional theme.
 
 ## Getting Started
 
-In the project directory, you can run:
+In the project directory:
 
-### `npm start`
+- `npm install` (first run)
+- `npm start`
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+App runs on http://localhost:3000 (or the container-mapped port).
 
-### `npm test`
+## How it works
 
-Launches the test runner in interactive watch mode.
+- Client-side attempts `fetch(<URL>)` to get HTML. Many sites block this due to CORS.
+- If CORS or network fails, the app falls back to mocked sample data so users always see a result.
+- When fetch succeeds, it parses:
+  - `<title>`
+  - `<meta name="description">` or `og:description`
+  - First 10 anchor links (`<a href>`)
 
-### `npm run build`
+All logic is in `src/utils/scrape.js`.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Project Structure
 
-## Customization
+- `src/App.js` — Main app. Handles states: idle, loading, success, error.
+- `src/components/UrlForm.jsx` — Accessible URL input and submit.
+- `src/components/Results.jsx` — Displays results and states.
+- `src/utils/scrape.js` — Scrape (attempt + mock fallback).
+- `src/theme.js` — Theme tokens (colors, spacing, radius, shadows).
+- `src/index.css` — Global styles, gradient background.
 
-### Colors
+## Notes
 
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
-
-### Components
-
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
-
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
-
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- No backend required.
+- This UI is accessible, keyboard-friendly, and uses subtle transitions and soft shadows.
+- Replace the mock fallback with a backend endpoint in the future for reliable scraping.
