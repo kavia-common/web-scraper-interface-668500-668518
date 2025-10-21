@@ -8,6 +8,15 @@ export const theme = {
     surface: '#ffffff',
     text: '#111827',
   },
+  darkColors: {
+    primary: '#3b82f6',
+    secondary: '#94a3b8',
+    success: '#06b6d4',
+    error: '#EF4444',
+    background: '#0f172a', // deep slate
+    surface: '#111827',    // near-surface slate
+    text: '#e5e7eb',
+  },
   spacing: {
     xs: '6px',
     sm: '10px',
@@ -32,3 +41,36 @@ export const theme = {
     slow: 'all 320ms ease',
   },
 };
+
+// PUBLIC_INTERFACE
+export const ThemeStorage = {
+  /** Storage key for theme preference in localStorage. */
+  key: 'ocean_theme',
+  // PUBLIC_INTERFACE
+  get() {
+    try {
+      return localStorage.getItem(this.key);
+    } catch {
+      return null;
+    }
+  },
+  // PUBLIC_INTERFACE
+  set(value) {
+    try {
+      localStorage.setItem(this.key, value);
+    } catch {
+      /* ignore */
+    }
+  },
+};
+
+// PUBLIC_INTERFACE
+export function getInitialTheme() {
+  /** Returns 'light' | 'dark' honoring localStorage and prefers-color-scheme. */
+  const saved = ThemeStorage.get();
+  if (saved === 'light' || saved === 'dark') return saved;
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  return 'light';
+}

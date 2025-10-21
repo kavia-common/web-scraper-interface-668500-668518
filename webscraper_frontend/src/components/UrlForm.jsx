@@ -43,23 +43,41 @@ export default function UrlForm({ onSubmit, loading }) {
   return (
     <form onSubmit={handleSubmit} aria-label="Webpage URL input">
       <div className="input-row" role="group" aria-label="Enter URL to scrape">
-        <input
-          ref={inputRef}
-          className="input"
-          style={{ borderColor: error ? theme.colors.error : undefined }}
-          type="url"
-          name="url"
-          placeholder="https://example.com"
-          aria-label="URL"
-          aria-invalid={!!error}
-          aria-describedby={error ? 'url-error' : undefined}
-          value={url}
-          onChange={handleChange}
-          disabled={loading}
-          autoComplete="url"
-          inputMode="url"
-          required
-        />
+        <div style={{ position: 'relative', flex: 1 }}>
+          <span
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              left: 10,
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: 'var(--color-secondary)',
+              fontSize: 14
+            }}
+          >
+            🔗
+          </span>
+          <input
+            ref={inputRef}
+            className="input"
+            style={{
+              borderColor: error ? theme.colors.error : undefined,
+              paddingLeft: 32
+            }}
+            type="url"
+            name="url"
+            placeholder="https://example.com"
+            aria-label="URL"
+            aria-invalid={!!error}
+            aria-describedby={error ? 'url-error' : undefined}
+            value={url}
+            onChange={handleChange}
+            disabled={loading}
+            autoComplete="url"
+            inputMode="url"
+            required
+          />
+        </div>
         <button
           type="submit"
           className="button"
